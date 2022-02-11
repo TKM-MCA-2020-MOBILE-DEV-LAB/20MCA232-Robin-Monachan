@@ -1,46 +1,58 @@
-package com.example.myapplication;
+package com.example.shared;
+
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import java.util.Objects;
-
 
 public class MainActivity extends AppCompatActivity {
-
-    EditText Name;
-    EditText address;
-    EditText email;
-    Button Submit;
-
+    String Name;
+    String Address;
+    String Phone;
+    String Email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Name = findViewById(R.id.s1);
-        address = findViewById(R.id.s2);
-        email = findViewById(R.id.s3);
-        Submit = findViewById(R.id.b1);
-
     }
-
-    public void callSecondActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), MainActivity2.class);
-        String str = "Name     :         "+ Name.getText().toString();
-        i.putExtra("Value1", str);
-        String str1 ="Address  :         "+ address.getText().toString();
-        i.putExtra("Value2", str1);
-        String str2 = "Email   :         "+ email.getText().toString();
-        i.putExtra("Value3", str2);
-
+    public void onSubmit(View view){
+        EditText name = (EditText) findViewById(R.id.name);
+        EditText add = (EditText) findViewById(R.id.add);
+        EditText phone = (EditText) findViewById(R.id.phone);
+        EditText email = (EditText) findViewById(R.id.email);
+        Intent i = new Intent(getApplicationContext(),MainActivity2.class);
+        Name=  name.getText().toString();
+        Address = add.getText().toString();
+        Phone = phone.getText().toString();
+        Email = email.getText().toString();
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString("name", name.getText().toString());
+        myEdit.putString("add", add.getText().toString());
+        myEdit.putString("phone", phone.getText().toString());
+        myEdit.putString("email", email.getText().toString());
+        myEdit.apply();
+        i.putExtra("Name",Name);
+        i.putExtra("Address",Address);
+        i.putExtra("Phone",Phone);
+        i.putExtra("Email",Email);
         startActivity(i);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EditText name = (EditText) findViewById(R.id.name);
+        EditText add = (EditText) findViewById(R.id.add);
+        EditText phone = (EditText) findViewById(R.id.phone);
+        EditText email = (EditText) findViewById(R.id.email);
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        name.setText(sh.getString("name",""));
+        add.setText(sh.getString("add",""));
+        phone.setText(sh.getString("phone",""));
+        email.setText(sh.getString("email",""));
+
+    }
 }
