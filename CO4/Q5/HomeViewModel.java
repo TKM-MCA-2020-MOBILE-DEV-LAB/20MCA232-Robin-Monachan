@@ -1,15 +1,16 @@
-package com.example.appnavigation.ui.contacts;
+package com.example.navigation.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ContactsViewModel extends ViewModel {
-    private MutableLiveData<String> mText;
+public class HomeViewModel extends ViewModel {
 
-    public ContactsViewModel() {
+    private final MutableLiveData<String> mText;
+
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is contact fragment");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {
